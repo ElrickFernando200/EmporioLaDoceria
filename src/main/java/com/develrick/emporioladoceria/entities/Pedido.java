@@ -16,18 +16,21 @@ public class Pedido {
     private Instant instant;
     private StatusPedido status;
 
+    @OneToOne(mappedBy = "pedido",cascade = CascadeType.ALL)
+    private Pagamento pagamento;
+
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Usuario cliente;
     public Pedido(){
     }
 
-    public Pedido(Long id, Instant instant, StatusPedido status,Usuario cliente){
+    public Pedido(Long id, Instant instant, StatusPedido status,Usuario cliente,Pagamento pagamento){
         this.id = id;
         this.instant = instant;
         this.status = status;
         this.cliente = cliente;
-        this.instant = Instant.now();
+        this.pagamento = pagamento;
     }
 
 
@@ -57,6 +60,14 @@ public class Pedido {
 
     public void setCliente(Usuario cliente){
         this.cliente = cliente;
+    }
+
+    public Pagamento getPagamento(){
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento){
+        this.pagamento = pagamento;
     }
 
 }
