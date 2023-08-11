@@ -3,6 +3,8 @@ package com.develrick.emporioladoceria.entities;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_pedido")
@@ -22,6 +24,13 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Usuario cliente;
+
+
+    @OneToMany(mappedBy = "id.pedido")
+    private Set<ItemPedido> itemPedidos = new HashSet<>();
+
+
+
     public Pedido(){
     }
 

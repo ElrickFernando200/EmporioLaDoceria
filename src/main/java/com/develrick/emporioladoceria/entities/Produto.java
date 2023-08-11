@@ -25,6 +25,9 @@ public class Produto {
            inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private Set<Categoria> categorias = new HashSet<>();
 
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> itemPedidos = new HashSet<>();
+
     public Produto(){}
     public Produto(Long id, String nome, String descricao, Double preco,String imgUrl){
         this.id = id;
