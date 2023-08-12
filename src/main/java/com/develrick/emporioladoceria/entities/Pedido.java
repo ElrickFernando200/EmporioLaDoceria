@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tb_pedido")
@@ -77,6 +78,14 @@ public class Pedido {
 
     public void setPagamento(Pagamento pagamento){
         this.pagamento = pagamento;
+    }
+
+    public Set<ItemPedido> getItemPedidos(){
+        return itemPedidos;
+    }
+
+    public Set<Produto> getProdutos(){
+        return itemPedidos.stream().map(i -> i.getProduto()).collect(Collectors.toSet());
     }
 
 }

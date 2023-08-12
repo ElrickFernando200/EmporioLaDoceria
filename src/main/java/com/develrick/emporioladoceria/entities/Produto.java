@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tb_produto")
@@ -92,5 +93,13 @@ public class Produto {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    public Set<ItemPedido> getItemPedidos(){
+        return itemPedidos;
+    }
+
+    public Set<Pedido> getPedidos(){
+        return itemPedidos.stream().map( i -> i.getPedido()).collect(Collectors.toSet());
     }
 }
