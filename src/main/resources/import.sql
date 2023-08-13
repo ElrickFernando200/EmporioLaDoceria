@@ -25,8 +25,8 @@ INSERT INTO tb_usuario(nome,email,telefone,senha,data_nasc) VALUES ('Pietro Fern
 
 
 INSERT INTO tb_pedido(instant,status,cliente_id) VALUES (TIMESTAMP WITH TIME ZONE '2023-08-11T19:39:25Z',1,1);
-INSERT INTO tb_pedido(instant,status,cliente_id) VALUES (TIMESTAMP WITH TIME ZONE  '2023-02-15T09:25:45Z',0,2);
-INSERT INTO tb_pedido(instant,status,cliente_id) VALUES (TIMESTAMP WITH TIME ZONE  '2023-07-02T15:48:10Z',0,1);
+INSERT INTO tb_pedido(instant,status,cliente_id) VALUES (TIMESTAMP WITH TIME ZONE '2023-02-15T09:25:45Z',0,2);
+INSERT INTO tb_pedido(instant,status,cliente_id) VALUES (TIMESTAMP WITH TIME ZONE '2023-07-02T15:48:10Z',0,1);
 INSERT INTO tb_pedido(instant,status,cliente_id) VALUES (TIMESTAMP WITH TIME ZONE '2023-08-05T11:21:03Z',0,3);
 
 
