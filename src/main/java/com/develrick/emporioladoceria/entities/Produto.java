@@ -50,7 +50,7 @@ public class Produto {
         return nome;
     }
 
-    public void setNome(String getNome){
+    public void setNome(String nome){
         this.nome = nome;
     }
 
