@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 
 @RestController
@@ -42,10 +41,17 @@ public class ProdutoController {
         return ResponseEntity.created(uri).body(produtoDTO);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ProdutoDTO> update(@PathVariable  Long id,@RequestBody ProdutoDTO dto){
+        ProdutoDTO produtoDTO = produtoService.update(id,dto);
+        return ResponseEntity.ok(produtoDTO);
+    }
 
-
-
-
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleleById(@PathVariable Long id){
+        produtoService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 
 
 
