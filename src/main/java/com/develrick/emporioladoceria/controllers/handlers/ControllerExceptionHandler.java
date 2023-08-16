@@ -1,8 +1,8 @@
 package com.develrick.emporioladoceria.controllers.handlers;
 
 import com.develrick.emporioladoceria.dtos.CustomError;
+import com.develrick.emporioladoceria.services.exceptions.BancoDeDadosException;
 import com.develrick.emporioladoceria.services.exceptions.RecursoNaoEncontradoException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +19,14 @@ public class ControllerExceptionHandler {
         HttpStatus status = HttpStatus.NOT_FOUND;
         CustomError customError = new CustomError(Instant.now(),status.value(),e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(customError);
+    }
+
+    @ExceptionHandler(BancoDeDadosException.class)
+    public ResponseEntity<CustomError> bancoDeDados(BancoDeDadosException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError error = new CustomError(Instant.now(),status.value(),e.getMessage(),request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+
     }
 
 }

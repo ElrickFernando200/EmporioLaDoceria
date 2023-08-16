@@ -2,14 +2,16 @@ package com.develrick.emporioladoceria.services;
 
 import com.develrick.emporioladoceria.dtos.ProdutoDTO;
 import com.develrick.emporioladoceria.entities.Produto;
+import com.develrick.emporioladoceria.services.exceptions.BancoDeDadosException;
 import com.develrick.emporioladoceria.services.exceptions.RecursoNaoEncontradoException;
 import com.develrick.emporioladoceria.repositories.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.JDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -50,17 +52,24 @@ public class ProdutoService {
             entidade = produtoRepository.save(entidade);
             return new ProdutoDTO(entidade);
         } catch (EntityNotFoundException e){
-            throw new RecursoNaoEncontradoException("Recurso não existe.");
+            throw new RecursoNaoEncontradoException("Recurso não encontrado.");
         }
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void deleteById(Long id){
-        if (produtoRepository.existsById(id) == false) {
-                throw new RecursoNaoEncontradoException("Recurso não existe");
+        try {
+            if (produtoRepository.existsById(id) == false) {
+                throw new IllegalArgumentException("Recurso não existe");
             }
-        produtoRepository.deleteById(id);
+            produtoRepository.deleteById(id);
+        } catch (IllegalArgumentException e){
+            throw new RecursoNaoEncontradoException(e.getMessage());
+        } catch (DataIntegrityViolationException e){
+            throw new BancoDeDadosException("Falha na Integridade Referencial");
+        }
     }
+
 
     private void copiaDTO(ProdutoDTO dto, Produto entidade){
         entidade.setNome(dto.getNome());
