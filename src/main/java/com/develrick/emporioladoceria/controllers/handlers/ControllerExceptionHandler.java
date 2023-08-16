@@ -1,11 +1,13 @@
 package com.develrick.emporioladoceria.controllers.handlers;
 
 import com.develrick.emporioladoceria.dtos.CustomError;
+import com.develrick.emporioladoceria.dtos.ValidationError;
 import com.develrick.emporioladoceria.services.exceptions.BancoDeDadosException;
 import com.develrick.emporioladoceria.services.exceptions.RecursoNaoEncontradoException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -28,5 +30,16 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(error);
 
     }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<CustomError> validacao(MethodArgumentNotValidException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        ValidationError error = new ValidationError(Instant.now(),status.value(),"Dados Invalidos",request.getRequestURI());
+        e.getBindingResult().getFieldErrors().stream().forEach(x -> error.addErros(x.getField(),x.getDefaultMessage()));
+        return ResponseEntity.status(status).body(error);
+
+    }
+
+
+
 
 }

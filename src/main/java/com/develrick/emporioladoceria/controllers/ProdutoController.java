@@ -2,6 +2,7 @@ package com.develrick.emporioladoceria.controllers;
 
 import com.develrick.emporioladoceria.dtos.ProdutoDTO;
 import com.develrick.emporioladoceria.services.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +35,7 @@ public class ProdutoController {
 
 
     @PostMapping
-    public ResponseEntity<ProdutoDTO> save(@RequestBody ProdutoDTO dto){
+    public ResponseEntity<ProdutoDTO> save(@Valid @RequestBody ProdutoDTO dto){
         ProdutoDTO produtoDTO = produtoService.save(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(produtoDTO.getId()).toUri();
@@ -42,7 +43,7 @@ public class ProdutoController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProdutoDTO> update(@PathVariable  Long id,@RequestBody ProdutoDTO dto){
+    public ResponseEntity<ProdutoDTO> update(@PathVariable  Long id,@Valid @RequestBody ProdutoDTO dto){
         ProdutoDTO produtoDTO = produtoService.update(id,dto);
         return ResponseEntity.ok(produtoDTO);
     }
